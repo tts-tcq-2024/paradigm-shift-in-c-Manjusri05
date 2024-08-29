@@ -47,4 +47,5 @@ int main() {
     // Test cases
     batteryIsOk(25, 70, 0.7);
     batteryIsOk(50, 85, 0);
+    batteryIsOk(70, 85, 2);
 }
