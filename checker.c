@@ -45,6 +45,6 @@ void displayChargeRate(bool isChargeRateOk) {
 
 int main() {
     // Test cases
-    printf("Test Case 1: %s\n", batteryIsOk(25, 70, 0.7f) );
-    printf("Test Case 2: %s\n", batteryIsOk(50, 85, 0.0f) );
+    batteryIsOk(25, 70, 0.7);
+    batteryIsOk(50, 85, 0);
 }
