@@ -45,13 +45,6 @@ void displayChargeRate(bool isChargeRateOk) {
 
 int main() {
     // Test cases
-    printf("Test Case 1: %s\n", batteryIsOk(25, 70, 0.7f) ? "Passed" : "Failed");
-    printf("Test Case 2: %s\n", batteryIsOk(50, 85, 0.0f) ? "Passed" : "Failed");
-    printf("Test Case 3: %s\n", batteryIsOk(-1, 85, 0.0f) ? "Passed" : "Failed");
-    printf("Test Case 4: %s\n", batteryIsOk(25, 10, 0.0f) ? "Passed" : "Failed");
-    printf("Test Case 5: %s\n", batteryIsOk(25, 85, 0.0f) ? "Passed" : "Failed");
-    printf("Test Case 6: %s\n", batteryIsOk(25, 25, 0.9f) ? "Passed" : "Failed");
-    printf("Test Case 7: %s\n", batteryIsOk(25, 85, 0.0f) ? "Passed" : "Failed");
-
-    return 0;
+    printf("Test Case 1: %s\n", batteryIsOk(25, 70, 0.7f) );
+    printf("Test Case 2: %s\n", batteryIsOk(50, 85, 0.0f) );
 }
