@@ -1,51 +1,54 @@
 #include <stdio.h>
-#include <stdbool.h>
+#include "checker.h"
 
-bool checkTemperature(float temperature) {
-    return temperature < 0 || temperature > 45;
+float tolerance_Check(float max){
+    return max*0.05; //5% of the max value
 }
-
-bool checkState(float soc) {
-    return soc < 20 || soc > 80;
-}
-
-bool checkChargeRate(float chargeRate) {
-    return chargeRate > 0.8;
-}
-
-bool batteryIsOk(float temperature, float soc, float chargeRate) {
-    bool isTemperatureOk = !checkTemperature(temperature);
-    bool isSocOk = !checkState(soc);
-    bool isChargeRateOk = !checkChargeRate(chargeRate);
-
-    displayTemp(isTemperatureOk);
-    displaySoc(isSocOk);
-    displayChargeRate(isChargeRateOk);
-
-    return isTemperatureOk && isSocOk && isChargeRateOk;
-}
-
-void displayTemp(bool isTemperatureOk) {
-    if (!isTemperatureOk) {
-        printf("Temperature is out of range!\n");
+int warning_check(float value, float tolerance,float upper, float lower, const char* range_name){
+    if(value >= (upper - tolerance)){
+        printf("%s approaching peak!\n", range_name);
+    }
+    if (value <= (lower + tolerance)) {
+        printf("%s approaching discharge!\n", range_name);
     }
 }
 
-void displaySoc(bool isSocOk) {
-    if (!isSocOk) {
-        printf("State of Charge is out of range!\n");
+int isTemperatureOk(float temperature) {
+    float Temp_tolerance_Check = tolerance_Check(TEMP_UL);
+    
+    if(temperature < 0 || temperature > 45)
+    {
+        printf("Temperature out of range!\n");
+        return 0;
     }
+    warning_check(temperature,Temp_tolerance_Check,TEMP_UL,TEMP_LL,"Temperature");
+    return 1;
 }
-
-void displayChargeRate(bool isChargeRateOk) {
-    if (!isChargeRateOk) {
-        printf("Charge Rate is out of range!\n");
+ 
+int isSocOk(float soc) {
+    float SOC_tolerance_Check = tolerance_Check(SOC_UL);
+    
+    if(soc < 20 || soc > 80)
+    {
+        printf("State of Charge out of range!\n");
+      return 0;
     }
+    warning_check(soc,SOC_tolerance_Check,SOC_UL,SOC_LL,"SOC");
+    return 1;
 }
-
-int main() {
-    // Test cases
-    batteryIsOk(25, 70, 0.7);
-    batteryIsOk(50, 85, 0);
-    batteryIsOk(70, 85, 2);
+ 
+int isChargeRateOk(float chargeRate) {
+    float Chargerate_tolerance_Check = tolerance_Check(CHARGE_RATE_UL);
+    
+    if(chargeRate > 0.8)
+    {
+         printf("Charge Rate out of range!\n");
+         return 0;
+    }
+     warning_check(chargeRate,Chargerate_tolerance_Check,CHARGE_RATE_UL,0,"Charge rate");
+    return 1;
+}
+ 
+int batteryIsOk(float temperature, float soc, float chargeRate) {
+    return isTemperatureOk(temperature) && isSocOk(soc) && isChargeRateOk(chargeRate);
 }
